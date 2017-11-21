@@ -105,9 +105,9 @@ Then I fitted the lane lines with a second order polynomial (cell 29-30, functio
 * Use `np.polyfit()` to fit a second order polynomial for the points collected in the previous step.
 * Visualize fitted line on top of the original thresholded image by generating test points and looking at the output of the fit function as shown below.
 
-![alt text][image5]
-
 ![alt text][image8]
+
+![alt text][image5]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
