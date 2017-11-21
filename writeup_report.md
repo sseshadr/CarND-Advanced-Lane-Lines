@@ -20,6 +20,7 @@ The goals / steps of this project are the following:
 [image5]: ./output_images/pipelinesfitted.png "Fit Visual"
 [image6]: ./output_images/pipeareaprojected.png "Output"
 [image7]: ./output_images/pipetextannotated.png "Output Video Snapshot"
+[image8]: ./output_images/pipewarpthresholded.png "Warp Example Thresholded"
 [video1]: ./project_video.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
@@ -106,6 +107,8 @@ Then I fitted the lane lines with a second order polynomial (cell 29-30, functio
 
 ![alt text][image5]
 
+![alt text][image8]
+
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
 Then I measured the radius of curvature of the lanes (cell 31, function `measure_curvature()`). The following steps were performed:
@@ -147,4 +150,11 @@ Here's a [link to my video result](./test_videos_output/project_output.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+* Thresholding:
+Working with thresholding is always tricky since it is challenging to find a set of thresholds that work for different conditions. Once I had a pipeline, I tested my algorithm for all the test images and adjusted thresholds so that they would work. But there were some frames in the video that were not well represented by this set of test images so I added my own to debug specifically what those issues might be. One such can be seen [here](https://github.com/sseshadr/CarND-Advanced-Lane-Lines/blob/master/writeup_report.md#4-describe-how-and-identify-where-in-your-code-you-identified-lane-line-pixels-and-fit-their-positions-with-a-polynomial). Shadows are a pretty big problem when thresholding using the S plane of HLS. I mitigated this by using a very tight window so that we rely more on the sobel based gradient threshold. Despite this you can see a huge blob in the middle of the road. This results in skewing of the lane lines and unnecessary points being introduced while performing fitting. Future directions could involve looking at other color spaces to perform thresholding that might handle shadows better.
+
+* Perspective transform:
+This is very tricky as the dependence on source and destination points is very sensitive. 
+
+* Window searching:
+The code provided in the module [here](https://classroom.udacity.com/nanodegrees/nd013/parts/fbf77062-5703-404e-b60c-95b78b2f3f9e/modules/2b62a1c3-e151-4a0e-b6b6-e424fa46ceab/lessons/40ec78ee-fb7c-4b53-94a8-028c5c60b858/concepts/c41a4b6b-9e57-44e6-9df9-7e4e74a1a49a) worked for the most part. However we search for lane lines in the full image. To avoid searching in unnecessary areas like the boundary of images, I restricted the search to between 1/4th to 3/4th of the width of the image (1/4th from the center of the car). This was fairly easy to do by looking at the histogram only selectively and improved the results remarkably.
