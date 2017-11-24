@@ -31,7 +31,7 @@ The goals / steps of this project are the following:
 
 ### Writeup / README
 
-#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Advanced-Lane-Lines/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
+#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.
 
 You're reading it!
 
@@ -101,7 +101,7 @@ I verified that my perspective transform was working as expected by drawing the 
 Then I fitted the lane lines with a second order polynomial (cell 29-30, function `fit_lanes()`). The following steps were performed:
 * Threshold the warped image from the previous step. 
 * Take a histogram of the bottom half of the image to see the concentration of white pixels. Use this for initial X locations of the left and right lanes.
-* Do a sliding window search. Startin with the initial positions from above, move a constant sized window (margin fixed) to identify the non zero pixels in that window. These are the points that will be used to fit the polynomial.
+* Do a sliding window search. Starting with the initial positions from above, move a constant sized window (margin fixed) to identify the non zero pixels in that window. These are the points that will be used to fit the polynomial.
 * Use `np.polyfit()` to fit a second order polynomial for the points collected in the previous step.
 * Visualize fitted line on top of the original thresholded image by generating test points and looking at the output of the fit function as shown below.
 
@@ -112,6 +112,9 @@ Then I fitted the lane lines with a second order polynomial (cell 29-30, functio
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
 Then I measured the radius of curvature of the lanes (cell 31, function `measure_curvature()`). The following steps were performed:
+* For the fit function, evaluate radius of curvature in pixels.
+* Convert from pixel space to world coordinate system.
+* Compute vehicle offset from center assuming camera placement is always at the center of the lane and image.
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
