@@ -59,9 +59,11 @@ From the calibration results, we can now apply distortion correction on any imag
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used a combination of color (in the S plane of the HLS color space) and gradient thresholds (sobel X) to generate a binary image (cell 27 with the function `threshold_image()`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+I used a combination of color (in the b plane of the Lab color space) and gradient thresholds (sobel X) to generate a binary image (cell 27 with the function `threshold_image()`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
 
 ![alt text][image3]
+
+P.S: First submission used the S plane of HLS colorspace that showed some issues with the shadowy areas.
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
@@ -101,6 +103,7 @@ I verified that my perspective transform was working as expected by drawing the 
 Then I fitted the lane lines with a second order polynomial (cell 29-30, function `fit_lanes()`). The following steps were performed:
 * Threshold the warped image from the previous step. 
 * Take a histogram of the bottom half of the image to see the concentration of white pixels. Use this for initial X locations of the left and right lanes.
+* Check if the initial X locations are within a particular threshold (200 pixel range). If not, use the values from the prior frame.
 * Do a sliding window search. Starting with the initial positions from above, move a constant sized window (margin fixed) to identify the non zero pixels in that window. These are the points that will be used to fit the polynomial.
 * Use `np.polyfit()` to fit a second order polynomial for the points collected in the previous step.
 * Visualize fitted line on top of the original thresholded image by generating test points and looking at the output of the fit function as shown below.
